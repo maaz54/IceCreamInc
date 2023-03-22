@@ -19,26 +19,14 @@ public class BazierFollow : MonoBehaviour
         routToGO = 0;
         tParam = 0;
         transform.parent = null;
-        //speedModifier = 0.5f;
         coroutineAllowed = true;
         positions.Clear();
-        // StartCoroutine(GotoRoute(routToGO));
         GotoRoute(routToGO);
     }
-
-    // void Update()
-    // {
-    //     if (coroutineAllowed)
-    //     {
-    //         StartCoroutine(GotoRoute(routToGO));
-    //     }
-    // }
-
 
     public List<int> icreamIndexes;
     public List<int> CreateObjective(int level, GameSetting gameSetting)
     {
-        int positionIndex = 0;
         icreamIndexes.Clear();
         for (int i = 0; i < gameSetting.Objectives[level - 1].creams.Count; i++)
         {
@@ -61,7 +49,6 @@ public class BazierFollow : MonoBehaviour
     public GameObject[] scoops;
     void IceCreamDemo()
     {
-        //for (int i = 0; i < icreamIndexes.Count; i++)
         for (int i = 0; i < positions.Count; i++)
             {
             GameObject go = Instantiate(scoops[icreamIndexes[i]-1]);
@@ -71,12 +58,9 @@ public class BazierFollow : MonoBehaviour
         }
     }
 
-    // private IEnumerator GotoRoute(int routeNumber)
     private void GotoRoute(int routeNumber)
     {
         coroutineAllowed = false;
-        // yield return new
-        //        WaitForEndOfFrame();
 
 
         Vector3 p0 = routes[routeNumber].GetChild(0).position;
@@ -85,17 +69,12 @@ public class BazierFollow : MonoBehaviour
         Vector3 p3 = routes[routeNumber].GetChild(3).position;
         while (tParam < 1)
         {
-            //tParam += Time.deltaTime * speedModifier;
             tParam += speedModifier;
             playerPosition = Mathf.Pow(1 - tParam, 3) * p0 +
                 3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
                 3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
                 Mathf.Pow(tParam, 3) * p3;
-
-            //transform.position = playerPosition;
             positions.Add(playerPosition);
-            //yield return new
-            //    WaitForEndOfFrame();
         }
 
         tParam = 0f;
@@ -108,7 +87,6 @@ public class BazierFollow : MonoBehaviour
         else
         {
             GotoRoute(routToGO);
-            // coroutineAllowed = true;
         }
 
     }
